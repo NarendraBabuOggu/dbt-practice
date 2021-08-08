@@ -1,2 +1,15 @@
-select p.order_id, o.customer_id, p.amount as amount from {{ ref('stg_payments') }} p  
-join {{ ref('stg_orders') }} o on o.order_id = p.order_id
+with orders as (
+    select * from {{ ref('stg_orders') }}
+), payments as (
+    select * from {{ ref('stg_payments') }}
+), order_payments as (
+    select o.order_id, case when lower(p.status) = 'success' then p.amount end as amount
+    from orders o 
+    left join payments p on o.order_id = p.order_id
+), final as (
+    select o.order_id, o.customer_id, o.order_date, coalesce(op.amount, 0) as amount
+    from orders o
+    left join order_payments op on o.order_id = op.order_id
+)
+
+select * from final
