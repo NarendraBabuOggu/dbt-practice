@@ -2,18 +2,23 @@ version: 2
 
 models:
   - name: stg_customers
+    description: Staging Table for Customer Data. One Record for each Unique Customer.
     columns: 
       - name: customer_id
+        description: Unique ID for Each Customer. Also, Primary key for stg_customers.
         tests:
           - unique
           - not_null
   - name: stg_orders
+    description: Staging Table for Orders. Contains all the Orders
     columns: 
       - name: order_id
+        description: A Unique ID for each Order. Also, Primary Key for stg_orders
         tests:
           - unique
           - not_null
       - name: status
+        description: '{{ doc("order_status") }}'
         tests:
           - accepted_values:
               values:
@@ -23,6 +28,7 @@ models:
                 - placed
                 - return_pending
       - name: customer_id
+        description: Foreign Key for stg_orders pointing to stg_customers(customer_id)
         tests:
           - relationships:
               to: ref('stg_customers')
