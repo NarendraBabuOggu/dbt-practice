@@ -4,4 +4,4 @@ select
     order_date,
     status
 
-from dbt_tutorial.orders
+from {{ source('dbt_raw', 'orders') }}

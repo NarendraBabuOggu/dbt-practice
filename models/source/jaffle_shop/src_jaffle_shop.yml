@@ -1,0 +1,52 @@
+version: 2
+
+sources:
+  - name: dbt_raw
+    description: Source for Raw Tables in BigQuery.
+    tables:
+      - name: customers
+        description: Raw Customers Data.
+        columns: 
+          - name: id
+            description: Unique ID for Each Customer. Also, Primary key for stg_customers.
+            tests:
+              - unique
+              - not_null
+      - name: orders
+        description: Raw Orders Data.
+        columns: 
+          - name: id
+            description: A Unique ID for each Order. Also, Primary Key for stg_orders
+            tests:
+              - unique
+              - not_null
+          - name: status
+            description: '{{ doc("order_status") }}'
+            tests:
+              - accepted_values:
+                  values:
+                    - completed
+                    - shipped
+                    - returned
+                    - placed
+                    - return_pending
+          - name: user_id
+            description: Foreign Key for stg_orders pointing to stg_customers(customer_id)
+            tests:
+              - relationships:
+                  to: source('dbt_raw', 'customers')
+                  field: id
+
+      - name: payments
+        description: Raw Payments Data.
+        columns:
+          - name: id
+            tests:
+              - unique
+              - not_null
+          - name: orderid
+            tests:
+              - not_null
+          - name: paymentmethod
+            tests:
+              - not_null

@@ -1,0 +1,46 @@
+version: 2
+
+models:
+  - name: dim_customer
+    description: Customer Dimension. Contains all the details of Customer.
+    columns:
+      - name: customer_id
+        description: Unique ID for each Customer
+        tests: 
+          - unique
+          - not_null
+      - name: number_of_orders
+        description: Number of Orders Placed by Customer
+        tests:
+          - not_null
+      - name: lifetime_value
+        description: Lifetime Value of the Customer. Sum of all Amount spent on the Orders that are Successful.
+        tests:
+          - not_null
+      - name: first_name
+        description: First Name of the Customer
+      - name: last_name
+        description: Last Name of the Customer
+      - name: first_order_date
+        description: Date when the First Successful Order is Placed.
+      - name: most_recent_order_date
+        description: Date when the Most Recent Order is Placed.
+  - name: fct_orders
+    description: Orders Fact.
+    columns:
+      - name: order_id
+        description: A Unique ID for each Order. Also, Primary Key for fct_orders
+        tests:
+          - not_null
+      - name: customer_id
+        description: Foreign Key for fct_orders pointing to dim_customers(customer_id)
+        tests:
+          - not_null
+      - name: order_date
+        description: Date when the Order is Placed.
+        tests:
+          - not_null
+      - name: amount
+        description: Amount spent on the order
+        tests:
+          - not_null
