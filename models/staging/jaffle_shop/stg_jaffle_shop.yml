@@ -33,3 +33,10 @@ models:
           - relationships:
               to: ref('stg_customers')
               field: customer_id
+  - name: stg_payments
+    description: "Staging Table for Payments"
+    columns:
+      - name: payment_id
+        tests:
+          - unique
+          - not_null
