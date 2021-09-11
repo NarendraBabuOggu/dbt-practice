@@ -2,6 +2,7 @@ version: 2
 
 models:
   - name: stg_payments
+    description: "Staging Table for Payments"
     columns:
       - name: payment_id
         tests:

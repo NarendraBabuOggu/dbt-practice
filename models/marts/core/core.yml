@@ -5,6 +5,7 @@ models:
     description: Customer Dimension. Contains all the details of Customer.
     columns:
       - name: customer_id
+        description: Unique ID for each Customer
         tests: 
           - unique
           - not_null
