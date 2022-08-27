@@ -23,6 +23,7 @@ target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
     - "target"
     - "dbt_modules"
+    - "logs"
 
 
 # Configuring models
@@ -32,11 +33,18 @@ clean-targets:         # directories to be removed by `dbt clean`
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
 models:
+  +persist_docs:
+    relation: true
+    columns: true
   jaffle_shop:
+    source:
+      schema: input
+      +materialied: view
     staging:
       schema: transient
       +materialized: view
     marts:
       core: 
-        +schema: final
+        +schema: output
         +materialized: table  
+

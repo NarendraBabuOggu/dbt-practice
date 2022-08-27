@@ -3,6 +3,7 @@ version: 2
 sources:
   - name: dbt_raw
     description: Source for Raw Tables in BigQuery.
+    schema: input
     tables:
       - name: customers
         description: Raw Customers Data.
