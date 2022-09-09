@@ -12,12 +12,13 @@ profile: 'default'
 # These configurations specify where dbt should look for different types of files.
 # The `source-paths` config, for example, states that models in this project can be
 # found in the "models/" directory. You probably won't need to change these!
-source-paths: ["models"]
+model-paths: ["models"]
 analysis-paths: ["analysis"]
 test-paths: ["tests"]
-data-paths: ["data"]
+seed-paths: ["seeds"]
 macro-paths: ["macros"]
 snapshot-paths: ["snapshots"]
+
 
 target-path: "target"  # directory which will store compiled SQL files
 clean-targets:         # directories to be removed by `dbt clean`
@@ -32,15 +33,34 @@ clean-targets:         # directories to be removed by `dbt clean`
 # In this example config, we tell dbt to build all models in the example/ directory
 # as tables. These settings can be overridden in the individual model files
 # using the `{{ config(...) }}` macro.
+seeds:
+  jaffle_shop:
+    raw_customers:
+      +enabled: true
+      +tags: "dbt"
+      +schema: input
+      +alias: customers
+    raw_orders:
+      +enabled: true
+      +tags: "dbt"
+      +schema: input
+      +alias: orders
+    raw_payments:
+      +enabled: true
+      +tags: "dbt"
+      +schema: input
+      +alias: payments
+
 models:
   +hours_to_expiration: 240
   +persist_docs:
     relation: true
-    columns: true
+    columns: false 
+    # Column Descriptions are not working in sandbox mode
   jaffle_shop:
-    source:
-      schema: input
-      +materialied: view
+    # source:
+    #   schema: input
+    #   +materialied: view
     staging:
       schema: transient
       +materialized: view

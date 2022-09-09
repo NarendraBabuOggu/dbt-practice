@@ -1,7 +1,7 @@
 version: 2
 
 sources:
-  - name: dbt_raw
+  - name: dbt_input
     description: Source for Raw Tables in BigQuery.
     schema: input
     tables:
@@ -35,7 +35,7 @@ sources:
             description: Foreign Key for stg_orders pointing to stg_customers(customer_id)
             tests:
               - relationships:
-                  to: source('dbt_raw', 'customers')
+                  to: source('dbt_input', 'customers')
                   field: id
 
       - name: payments
@@ -45,9 +45,10 @@ sources:
             tests:
               - unique
               - not_null
-          - name: orderid
+          - name: order_id
             tests:
-              - not_null
-          - name: paymentmethod
-            tests:
-              - not_null
+              - relationships:
+                  to: source('dbt_input', 'orders')
+                  field: id
+          - name: payment_method
+          - name: amount

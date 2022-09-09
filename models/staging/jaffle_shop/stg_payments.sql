@@ -1,8 +1,6 @@
 select 
     id as payment_id, 
-    orderid as order_id, 
-    paymentmethod as payment_method, 
-    status, 
-    amount/100 as amount, 
-    created as created_dt
-from {{ source('dbt_raw', 'payments') }}
+    order_id as order_id, 
+    payment_method as payment_method, 
+    amount/100 as amount
+from {{ source('dbt_input', 'payments') }}

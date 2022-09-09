@@ -3,7 +3,7 @@ with orders as (
 ), payments as (
     select * from {{ ref('stg_payments') }}
 ), order_payments as (
-    select o.order_id, case when lower(p.status) = 'success' then p.amount end as amount
+    select o.order_id, p.amount
     from orders o 
     left join payments p on o.order_id = p.order_id
 ), final as (

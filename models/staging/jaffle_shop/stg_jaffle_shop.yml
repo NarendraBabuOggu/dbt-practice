@@ -9,6 +9,10 @@ models:
         tests:
           - unique
           - not_null
+      - name: first_name
+        description: Customer First Name
+      - name: last_name
+        description: Customer Last Name
   - name: stg_orders
     description: Staging Table for Orders. Contains all the Orders
     columns: 
