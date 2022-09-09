@@ -35,19 +35,17 @@ clean-targets:         # directories to be removed by `dbt clean`
 # using the `{{ config(...) }}` macro.
 seeds:
   jaffle_shop:
+    +tags: ["dbt"]
     raw_customers:
       +enabled: true
-      +tags: "dbt"
       +schema: input
       +alias: customers
     raw_orders:
       +enabled: true
-      +tags: "dbt"
       +schema: input
       +alias: orders
     raw_payments:
       +enabled: true
-      +tags: "dbt"
       +schema: input
       +alias: payments
 
@@ -61,10 +59,13 @@ models:
     # source:
     #   schema: input
     #   +materialied: view
+    +tags: ["dbt"]
     staging:
       schema: transient
       +materialized: view
+      +tags: "stage"
     marts:
+      +tags: "modeled"
       core: 
         +schema: output
         +materialized: table  
