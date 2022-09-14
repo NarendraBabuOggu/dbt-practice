@@ -7,6 +7,12 @@ sources:
     tables:
       - name: customers
         description: Raw Customers Data.
+        tests:
+          - type_check:
+              table_schema: |
+                id:INT64,
+                first_name:STRING,
+                last_name:STRING
         columns: 
           - name: id
             description: Unique ID for Each Customer. Also, Primary key for stg_customers.
